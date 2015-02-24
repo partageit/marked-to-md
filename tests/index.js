@@ -18,9 +18,11 @@ var mdToMd = parser.parse(tokens2);
 var mdToMdTokens = marked.lexer(mdToMd);
 var mdToMdToHtml = marked.parser(mdToMdTokens);
 
-console.log('Result:', (mdToHtml === mdToMdToHtml));
-
 if (mdToHtml !== mdToMdToHtml) {
+	console.log('Test fails: Marked to HTML and Marked to Markdown to HTML are different');
+	console.log('Check marked-renderer.html and marked-to-md-to-html for further details');
 	fs.writeFileSync(path.join(__dirname, 'marked-renderer.html'), mdToHtml);
 	fs.writeFileSync(path.join(__dirname, 'marked-to-md-to-html.html'), mdToMdToHtml);
+} else {
+	console.log('Test succeeds: Marked to HTML and Marked to Markdown to HTML are equal');
 }

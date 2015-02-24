@@ -66,17 +66,29 @@ Les listes imbriquées doivent d'être indentées avec un espace supplémentaire
 
 La numérotation est automatique au moment de la conversion : toutes les entrées de la liste peuvent être numérotées `1.`.
 
-1. Premier point
-1. Deuxième point
-1. Troisième point
+1. First point
+1. Second point
+1. Third point
+
+With different numbers:
+
+1. First point
+2. Second point
+3. Third point
 
 ## Liste non ordonnée
 
 - Avec un tiret Maralpin
-+ Avec un plus
++ Avec un plus  
+next line on the same item
 * Avec un astérisque
  - sous item
+ - sub item2
+- Level 1
+ - Another sub item1
+ - Another sub item2
 
+- > blockquote in a list
 
 ## Liens
 
@@ -136,6 +148,7 @@ Du `code` intégré à une ligne entre ` et `
 ```
 Code sur
 plusieurs lignes
+avec " & é
 ```
 
 ```javascript
@@ -143,7 +156,7 @@ var text = 'Code Javascript pour activer la coloration syntaxique';
 console.log(text);
 ```
 
-## Tableaux
+## Tableaux [lien dans un titre](link.md) "double quote"
 
 | colonne 1 | colonne 2 | colonne 3 |
 | --------- |:---------:| ---------:|
@@ -158,6 +171,10 @@ Les `:` permettent l'alignement à droite ou au centre, ici les colonnes sont su
 ## HTML
 
 HTML peut être utilisé dans un document markdown.
+
+<strong>Strong</strong>
+
+<p>Hello world! <em>Italic</em><br>...</p>
 
 ## Références
 

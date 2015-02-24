@@ -1,44 +1,59 @@
 'use strict';
 
 module.exports = function (renderer) {
-	renderer.code = function(code, lang /*, escaped*/) { // what is escaped?
+	var tableHeader = '';
+
+	// block level renderers
+	renderer.code = function(code, lang /*, escaped*/) { // escaped is a boolean
 		return '```' + (lang ? lang : '') + '\n' + code + '\n```\n';
 	};
-	renderer.blockquote = function(quote) {  // each line should begin with > + what about nested blockquotes?
-		return '> ' + quote + '\n';
+	renderer.blockquote = function(quote) {
+		return '> ' + quote.trim().replace(/\n/g, '\n> ') + '\n\n';
 	};
 	renderer.html = function(html) {
 		return html;
 	};
-	renderer.heading = function(text, level /*, raw */) {  // what is raw?
-		return  new Array(level + 1).join('#') + ' ' + text + '\n';
+	renderer.heading = function(text, level, raw) {
+		return new Array(level + 1).join('#') + ' ' + raw + '\n';
 	};
 	renderer.hr = function() {
 		return '\n---\n';
 	};
-	renderer.list = function(body /*, ordered*/) {
-		// if orderer, replace first level items prefix (-) with numbers
-		return '\n' + body + '\n';
+	renderer.list = function(body, ordered) {
+		return body.replace(/doubidoubidou/g, (ordered ? '1.' : '-')) + '\n\n';
 	};
 	renderer.listitem = function(text) {
-		text = text.replace('\n-', '\n -');  // warning: only the first occurrence is replaced
-		// if text contains sublevels items, remove the trailing \n
-		return '- ' + text + '\n';
+		var linesToAdd = [];
+		text.split('\n').forEach(function(line) {
+			if (line.trim() !== '') {
+				if ((line.trim()[0] === '-') || (!isNaN(line.trim()[0]))) {
+					linesToAdd.push(' ' + line);
+				} else {
+					linesToAdd.push(line);
+				}
+			}
+		});
+		return '\ndoubidoubidou ' + linesToAdd.join('\n');
 	};
 	renderer.paragraph = function(text) {
 		return text + '\n\n';
 	};
 	renderer.table = function(header, body) {
-		// To be tested...
-		return header + '\n' + '------------------\n' + body + '\n';
+		var result = header /*+ '\n'*/ + '|' + tableHeader + '\n' + body + '\n';
+		tableHeader = '';
+		return result;
 	};
 	renderer.tablerow = function(content) {
 		return '| ' + content + '\n';
 	};
-	renderer.tablecell = function(content /*, flags */) {
+	renderer.tablecell = function(content, flags) {
+		if (flags.header) {
+			tableHeader += (flags.align === 'center' ? ':' : '') + '--' + (['center', 'right'].indexOf(flags.align) !== -1 ? ':' : '') + '|';
+		}
 		return ' ' + content + ' | ';
 	};
-	// span level renderer
+
+	// span level renderers
 	renderer.strong = function(text) {
 		return '**' + text + '**';
 	};
@@ -58,7 +73,7 @@ module.exports = function (renderer) {
 		return '[' + text + '](' + href + (title ? ' "' + title + '"' : '') + ')';
 	};
 	renderer.image = function(href, title, text) {
-		return '[' + text + '](' + href + (title ? ' "' + title + '"' : '') + ')';
+		return '![' + text + '](' + href + (title ? ' "' + title + '"' : '') + ')';
 	};
 
 	return renderer;

@@ -4,7 +4,7 @@
 
 ## Wait... what?
 
-As Marked is a good and fast Markdown parser, it may be useful to parse and update Markdown documents.
+As [Marked](https://github.com/chjj/marked) is a good and fast Markdown parser, it may be useful to parse and update Markdown documents.
 
 An example of use: [Markdown-to-slides](https://github.com/partageit/markdown-to-slides): open a standard Markdown document and adds the required separators for remark.js.
 
@@ -12,7 +12,7 @@ An example of use: [Markdown-to-slides](https://github.com/partageit/markdown-to
 
 ```javascript
 var marked = require('marked');
-var mdRenderer = require('../marked-to-md');
+var mdRenderer = require('marked-to-md');
 
 var source = '# Markdown to md renderer\nHello world!';
 
